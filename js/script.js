@@ -58,3 +58,35 @@ galeria.forEach(item => {
 if (window.SimpleAnime) {
   new SimpleAnime()
 }
+
+//Enviando formulário com Javascript
+const formulario = document.querySelector('form')
+
+formulario.addEventListener('submit', e => {
+  e.preventDefault()
+
+  const botao = document.querySelector('form button')
+  botao.disabled = true
+  botao.innerHTML = 'Enviando...'
+
+  const data = new FormData(formulario)
+
+  fetch('./enviar.js', {
+    method: 'POST',
+    body: data
+  }).then((res) => {
+    if (res.ok) {
+      formulario.innerHTML = 
+        `<p class="font-2-l" style="grid-column: 1/-1; padding: 1rem; border-radius 4px; background: #f7f7f7">
+         <span style="color: #317a00">Mensagem enviada</span>, em breve entraremos em contato
+        </p>`
+    } else {
+      formulario.innerHTML = 
+        `<p class="font-2-l" style="grid-column: 1/-1; padding: 1rem; border-radius 4px; background: #f7f7f7">
+        <span style="color: #e00000">Erro ao enviar</span>, você pode enviar diretamante 
+          para o nosso email em: contato@contato.com
+        </p>`
+    }
+  })
+
+})
